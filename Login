@@ -1,0 +1,23 @@
+[HttpGet]
+public IActionResult Login()
+{
+	return View();
+}
+[HttpPost]
+public IActionResult Login(LoginModel login)
+{
+	if (ModelState.IsValid)
+	{
+		var ExistUser = _users.FirstOrDefault(u => u.Email.ToLower() == login.Email.ToLower());
+		if (ExistUser != null)
+		{
+			if (ExistUser.Password == login.Password)
+			{
+				return RedirectToAction("Index");
+			}
+		}
+		ModelState.AddModelError("", "Invalid Email or Password");
+		return View(login);
+	}
+	return View(login);
+}
