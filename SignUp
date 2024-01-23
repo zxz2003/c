@@ -1,0 +1,24 @@
+[HttpGet]
+public IActionResult SignUp() 
+{
+    return View();
+}
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult SignUp(User newUser) 
+{
+	if (ModelState.IsValid) 
+	{
+		var existUser = _users.FirstOrDefault(u=>u.Email.ToLower() == newUser.Email.ToLower());
+		if (existUser != null) 
+		{
+			ModelState.AddModelError("", "User Already Exist");
+			return View(newUser);
+        }
+		newUser.Id = _users.Count == 0 ? 1 : _users.Max(x => x.Id) + 1;
+		_users.Add(newUser);
+		_fileService.SaveUser(newUser);
+		return RedirectToAction("Login");
+    }
+	return View(newUser);
+}
