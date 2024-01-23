@@ -1,0 +1,7 @@
+private void SaveProduct(Algorithm product)
+{
+	StreamWriter writer = new StreamWriter(File_Name, true);
+	string Line = string.Concat(product.Id, "/", product.Name, "/", product.BigO, "/" ,product.DesignTechnique);
+	writer.WriteLine(Line);
+	writer.Close();
+}
