@@ -1,0 +1,21 @@
+[HttpGet]
+public IActionResult Delete(int id)
+{
+	var existProduct = _products.FirstOrDefault(p => p.Id == id);
+	if (existProduct == null) 
+	{
+		return NotFound();
+	}
+	return View(existProduct);
+}
+[HttpPost,ActionName("Delete")]
+public IActionResult ConfirmDelete(int id)
+{
+    var existProduct = _products.FirstOrDefault(p => p.Id == id);
+    if (existProduct == null)
+    {
+        return NotFound();
+    }
+	_products.Remove(existProduct);
+	return RedirectToAction("Index");
+}
