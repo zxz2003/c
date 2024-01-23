@@ -1,0 +1,30 @@
+@model User
+<h1>Sign Up Page</h1>
+
+@using (Html.BeginForm("SignUp", "Algorithm", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+         <p>
+            @Html.LabelFor(s => s.Name)
+            @Html.TextBoxFor(s => s.Name, "", new { @class = "form-control"})
+            @Html.ValidationMessageFor(s => s.Name, "", new { @class = "text-danger" })
+        </p>
+
+        <p>
+            @Html.LabelFor(s => s.Email)
+            @Html.TextBoxFor(s => s.Email, "", new {@class = "form-control", type="email"})
+            @Html.ValidationMessageFor(s => s.Email, "", new { @class = "text-danger" })
+        </p>
+
+        <p>
+            @Html.LabelFor(s => s.Password)
+            @Html.TextBoxFor(s => s.Password, "", new { @class = "form-control", type = "password" })
+            @Html.ValidationMessageFor(s => s.Password, "", new { @class = "text-danger" })
+        </p>
+
+        <input type="submit" value="Sing Up" class="btn btn-primary">
+       
+    </div>
+}
