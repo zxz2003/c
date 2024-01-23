@@ -1,0 +1,22 @@
+private void Read_Data_File()
+{
+	StreamReader reader = new StreamReader(File_Name);
+	String Line;
+	while (!reader.EndOfStream)
+	{
+		Line = reader.ReadLine();
+		if (Line != null)
+		{
+			var arr = Line.Split("/");
+			var product = new Algorithm
+			{
+				Id = Convert.ToInt32(arr[0]),
+				Name = arr[1],
+				BigO = arr[2],
+				DesignTechnique = arr[3]
+				
+			};
+			_products.Add(product);
+		}
+	}
+}
