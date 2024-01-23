@@ -1,0 +1,23 @@
+[HttpGet]
+public IActionResult EditProduct(int id)
+{
+	var product = _products.Find(p => p.Id == id);
+	if (product != null)
+	{
+		return View(product);
+	}
+	return RedirectToAction("Index");
+}
+[HttpPost]
+public IActionResult EditProduct(Algorithm product)
+{
+	var old_product = _products.Find(p => p.Id == product.Id);
+	if (old_product != null)
+	{
+		old_product.Name = product.Name;
+		old_product.BigO = product.BigO;
+		old_product.DesignTechnique = product.DesignTechnique;
+		return RedirectToAction("Index");
+	}
+	return View();
+}
