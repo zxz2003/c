@@ -1,0 +1,160 @@
+
+		
+		private static List<User> _users = new();
+
+		private static List<model> _obj = new();
+		private string File_Name = @"..\file.txt";
+		public static bool test = true;
+		public TestController() {
+
+			// the obj in to arr
+			if (test) {
+				test = false;
+				_obj.Add(new model());
+				
+			}
+
+
+		}
+		public IActionResult Index()
+		{
+			return View(_obj);
+		}
+
+		public IActionResult Details(int id) {
+			Code code = _obj.Find(code => code.id == id);
+
+			if (code != null)
+			{
+				if(ModelState.IsValid)
+				{
+					return View(code);
+				}
+			}
+			return RedirectToAction("Index");
+
+		}
+		[HttpGet]
+		public IActionResult Delete(int id)
+		{
+			var existProduct = _obj.FirstOrDefault(p => p.id == id);
+			if (existProduct == null)
+			{
+				return NotFound();
+			}
+			return View(existProduct);
+		}
+		 
+		[HttpPost, ActionName("Delete")]
+		public IActionResult ConfirmDelete(int id)
+		{
+			var existProduct = _obj.FirstOrDefault(p => p.id == id);
+			if (existProduct == null)
+			{
+				return NotFound();
+			}
+			_obj.Remove(existProduct);
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public IActionResult Create()
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Create(model obj)
+		{
+			zxz.id = _obj.Count == 0 ? 1 : _obj.Max(x => x.id) + 1;
+			if (ModelState.IsValid)
+			{
+				_obj.Add(zxz);
+				SaveCode(zxz);
+				return RedirectToAction("Index");
+			}
+			return View();
+		}
+
+		private void Save(model obj)
+		{
+			StreamWriter writer = new StreamWriter(File_Name, true);
+			string Line = string.Concat(code.id, "/", code.name, "/", code.description, "/", code.lang , "/", code.Lins);
+			writer.WriteLine(Line);
+			writer.Close();
+		}
+
+		public IActionResult Edit(int id)
+		{
+			var product = _obj.Find(p => p.Id == id);
+			if (product != null)
+			{
+				return View(product);
+			}
+			return RedirectToAction("Index");
+		}
+		[HttpPost]
+		public IActionResult Edit(model obj)
+		{
+			var old_product = _obj.Find(p => p.Id == product.Id);
+			if (old_product != null)
+			{
+				old_product.Name = product.Name;
+				old_product.BigO = product.BigO;
+				old_product.DesignTechnique = product.DesignTechnique;
+				return RedirectToAction("Index");
+			}
+			return View();
+		}
+
+
+
+
+
+
+		public IActionResult Login()
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Login(LoginModel login)
+		{
+			if (ModelState.IsValid)
+			{
+				var ExistUser = _users.FirstOrDefault(u => u.Email.ToLower() == login.Email.ToLower());
+				if (ExistUser != null)
+				{
+					if (ExistUser.Password == login.Password)
+					{
+						return RedirectToAction("Index");
+					}
+				}
+				ModelState.AddModelError("", "Invalid Email or Password");
+				return View(login);
+			}
+			return View(login);
+		}
+		[HttpGet]
+		public IActionResult SignUp()
+		{
+			return View();
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult SignUp(User newUser)
+		{
+			if (ModelState.IsValid)
+			{
+				var existUser = _users.FirstOrDefault(u => u.Email.ToLower() == newUser.Email.ToLower());
+				if (existUser != null)
+				{
+					ModelState.AddModelError("", "User Already Exist");
+					return View(newUser);
+				}
+				newUser.Id = _users.Count == 0 ? 1 : _users.Max(x => x.Id) + 1;
+				_users.Add(newUser);
+				
+				return RedirectToAction("Login");
+			}
+			return View(newUser);
+		}
+		[HttpGet]
