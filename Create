@@ -1,0 +1,14 @@
+@model test
+<h2>Create new Product</h2>
+@using (Html.BeginForm("Create", "contrilar", FormMethod.Post))
+{
+	<div>
+		<p>
+			@Html.LabelFor(x => x.name)
+			@Html.TextBoxFor(x => x.name)
+			@Html.ValidationMessageFor(x => x.name, "", new { @class = "text-danger" })
+		</p>
+		<input type="submit" value="Create product" class="btn btn-primary">
+
+	</div>
+}
