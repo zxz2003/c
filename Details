@@ -1,0 +1,9 @@
+public IActionResult Details(int id)
+{
+	var product = _products.Find(p => p.Id == id);
+	if (product != null)
+	{
+		return View(product);
+	}
+	return RedirectToAction("Index");
+}
