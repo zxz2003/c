@@ -1,0 +1,17 @@
+[HttpGet]
+public IActionResult CreateProduct()
+{
+	return View();
+}
+[HttpPost]
+public IActionResult CreateProduct(Algorithm product)
+{
+	product.Id = _products.Count == 0 ? 1 : _products.Max(x => x.Id) + 1;
+	if (ModelState.IsValid)
+	{
+		_products.Add(product);
+		SaveProduct(product);
+		return RedirectToAction("Index");
+	}
+	return View();
+}
