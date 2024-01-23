@@ -1,0 +1,23 @@
+@model LoginModel
+<h1>Login Page</h1>
+@using (Html.BeginForm("Login", "Algorithm", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        <p>
+            @Html.LabelFor(s => s.Email)
+            @Html.TextBoxFor(s => s.Email, "", new {@class = "form-control", type="email"})
+            @Html.ValidationMessageFor(s => s.Email, "", new { @class = "text-danger" })
+        </p>
+
+        <p>
+            @Html.LabelFor(s => s.Password)
+            @Html.TextBoxFor(s => s.Password, "", new { @class = "form-control", type="password" })
+            @Html.ValidationMessageFor(s => s.Password, "", new { @class = "text-danger" })
+        </p>
+
+        <input type="submit" value="Login" class="btn btn-primary">
+        <a class="btn btn-secondary" asp-action="SignUp">Sign Up</a>
+    </div>
+}
