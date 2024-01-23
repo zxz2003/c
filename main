@@ -1,0 +1,5 @@
+private FileManager _fileService= new FileManager();
+private static List<User> _users = new();
+
+private static List<Algorithm> _products = new();
+private string File_Name = @"..\Algorithm.txt";
